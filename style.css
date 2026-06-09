@@ -1,0 +1,340 @@
+/* ===== IMPORTS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap');
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --darkest:   #1B262C;
+  --dark:      #0F4C75;
+  --mid:       #3282B8;
+  --light:     #BBE1FA;
+  --white:     #ffffff;
+  --radius:    16px;
+  --shadow:    0 8px 32px rgba(0,0,0,0.35);
+}
+
+body {
+  background-color: var(--darkest);
+  color: var(--light);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px 60px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ===== ANIMATED BACKGROUND BLOBS ===== */
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  animation: floatBlob 10s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob1 { width: 420px; height: 420px; background: var(--mid);  top: -100px; left: -100px; animation-delay: 0s; }
+.blob2 { width: 320px; height: 320px; background: var(--dark); bottom: 80px; right: -80px; animation-delay: 3s; }
+.blob3 { width: 250px; height: 250px; background: var(--light); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 6s; }
+
+@keyframes floatBlob {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, 40px) scale(1.08); }
+}
+.blob3 { animation-name: floatBlob3; }
+@keyframes floatBlob3 {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to   { transform: translate(calc(-50% + 20px), calc(-50% + 30px)) scale(1.05); }
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  width: 100%;
+  max-width: 540px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  padding-top: 10px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.logo-icon {
+  font-size: 2rem;
+  color: var(--mid);
+}
+.logo-text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 1px;
+}
+.tagline {
+  font-size: 0.9rem;
+  color: var(--light);
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+}
+
+/* ===== SEARCH ===== */
+.search-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.search-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: rgba(15, 76, 117, 0.45);
+  border: 1.5px solid rgba(187, 225, 250, 0.2);
+  border-radius: 50px;
+  padding: 6px 6px 6px 20px;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s;
+}
+.search-box:focus-within {
+  border-color: var(--mid);
+}
+.search-icon {
+  color: var(--light);
+  opacity: 0.5;
+  font-size: 0.95rem;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  padding: 8px 0;
+}
+.search-input::placeholder {
+  color: var(--light);
+  opacity: 0.45;
+}
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--mid);
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  padding: 10px 22px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.15s;
+  flex-shrink: 0;
+}
+.search-btn:hover  { background: #2270a5; transform: scale(1.03); }
+.search-btn:active { transform: scale(0.97); }
+.search-hint {
+  font-size: 0.78rem;
+  color: var(--light);
+  opacity: 0.45;
+}
+
+/* ===== ERROR BOX ===== */
+.error-box {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  background: rgba(220, 53, 69, 0.18);
+  border: 1px solid rgba(220, 53, 69, 0.4);
+  color: #ff8a8a;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  width: 100%;
+  animation: fadeIn 0.3s ease;
+}
+.error-box.show { display: flex; }
+
+/* ===== LOADER ===== */
+.loader {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  color: var(--light);
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+.loader.show { display: flex; }
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid rgba(187,225,250,0.2);
+  border-top-color: var(--mid);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== WEATHER CARD ===== */
+.weather-card {
+  display: none;
+  width: 100%;
+  background: rgba(15, 76, 117, 0.38);
+  border: 1.5px solid rgba(187, 225, 250, 0.15);
+  border-radius: 24px;
+  padding: 32px 28px 24px;
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+  animation: slideUp 0.5s cubic-bezier(0.23,1,0.32,1) both;
+}
+.weather-card.show { display: block; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Card Top */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.city-name {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.2;
+}
+.date-time {
+  font-size: 0.82rem;
+  color: var(--light);
+  opacity: 0.6;
+  margin-top: 4px;
+}
+.weather-icon-wrap {
+  background: rgba(50,130,184,0.2);
+  border-radius: 50%;
+  width: 72px; height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.weather-icon { width: 52px; height: 52px; }
+
+/* Temperature */
+.temp-section { margin-bottom: 24px; }
+.temperature {
+  font-family: 'Raleway', sans-serif;
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+.weather-desc {
+  font-size: 1rem;
+  color: var(--light);
+  margin-top: 6px;
+  text-transform: capitalize;
+}
+.feels-like {
+  font-size: 0.82rem;
+  color: var(--light);
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: rgba(187,225,250,0.12);
+  margin-bottom: 22px;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: rgba(27, 38, 44, 0.55);
+  border: 1px solid rgba(187,225,250,0.1);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: rgba(50,130,184,0.5); }
+.stat-icon {
+  font-size: 1.2rem;
+  color: var(--mid);
+  flex-shrink: 0;
+}
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--light);
+  opacity: 0.55;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.stat-value {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+/* Card Footer */
+.card-footer {
+  font-size: 0.72rem;
+  color: var(--light);
+  opacity: 0.35;
+  text-align: center;
+}
+.card-footer i { margin-right: 4px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .temperature { font-size: 3rem; }
+  .city-name   { font-size: 1.4rem; }
+  .search-btn span { display: none; }
+  .weather-card { padding: 24px 18px 20px; }
+}
